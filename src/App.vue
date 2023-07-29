@@ -220,7 +220,7 @@ export default {
       position: relative;
       width: 100%;
       height: 100%;
-      background-image: url("Assets/world_bg.jpg");
+      background-image: url("./Assets/world_bg.jpg");
       background-position: center;
       background-size:contain;
       background-repeat: no-repeat;
