@@ -1,7 +1,7 @@
 <template>
         <header>
             <div class="logo">
-                <img src="./Assets/globe.svg" alt="LOGO">
+                <img src="@/assets/globe.svg" alt="LOGO">
             </div>
         </header>
         <main>
@@ -20,7 +20,7 @@
                 <div class="compo">
 
                     <div class="flag-container">
-                        <img :src="currentFlag" alt="">
+                        <img :src="require(`${currentFlag}`)" alt="">
 
                     </div>
                     <div class="st">
@@ -220,7 +220,7 @@ export default {
       position: relative;
       width: 100%;
       height: 100%;
-      background-image: url("./Assets/world_bg.jpg");
+      background-image: url("./assets/world_bg.jpg");
       background-position: center;
       background-size:contain;
       background-repeat: no-repeat;
