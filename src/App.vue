@@ -1,7 +1,7 @@
 <template>
         <header>
             <div class="logo">
-                <img src="@/Assets/globe.svg" alt="LOGO">
+                <img src="./Assets/globe.svg" alt="LOGO">
             </div>
         </header>
         <main>
