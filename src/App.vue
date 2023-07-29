@@ -20,7 +20,7 @@
                 <div class="compo">
 
                     <div class="flag-container">
-                        <img :src="require(`${currentFlag}`)" alt="">
+                        <img :src="currentFlag" alt="">
 
                     </div>
                     <div class="st">
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import flagData from '@/assets/flagsdata.json';
 
 export default {
     data() {
@@ -51,18 +52,7 @@ export default {
             inputText: '',
             currentFlag: null,
             // Replace the below array with a list of flag image paths
-            flagImages: [
-                { src: './assets/Andorra.png', value: 'Andorra', called: false },
-                { src: './assets/argentina.png', value: 'argentina', called: false },
-                { src: './assets/bahamas.png', value: 'bahamas', called: false },
-                { src: './assets/Afghanistan.png', value: 'Afghanistan', called: false },
-                { src: './assets/Albania.png', value: 'Albania', called: false },
-                { src: './assets/Algeria.png', value: 'Algeria', called: false },
-                { src: './assets/Angola.png', value: 'Angola', called: false },
-                { src: './assets/Antigua.png', value: 'Antigua', called: false },
-                { src: './assets/Armenia.png', value: 'Armenia', called: false },
-                { src: './assets/Australia.png', value: 'Australia', called: false },
-            ],
+            flagImages: [],
             currentIndex: -1,
             timerInterval: null, // Store the timer interval reference
         };
@@ -154,17 +144,28 @@ export default {
             this.play = false; // Show the "Start Round" button again
         },
         startGame() {
-            this.timer = '01:10'
-            this.play = true; 
-            this.feedback = 'GUESS THE FLAG'; 
+            this.timer = '10:10';
+            this.play = true;
+            this.feedback = 'GUESS THE FLAG';
             this.inputText = '';
             this.score = 0; // Reset the score for a new round
-            this.currentIndex = -1; 
-            this.flagImages.forEach(flag => flag.called = false);
+            this.currentIndex = -1;
+
+            // Shuffle the flagData array to randomize the order
+            const shuffledFlags = flagData.slice().sort(() => Math.random() - 0.5);
+
+            // Select the first 10 flags for the round
+            const selectedFlags = shuffledFlags.slice(0, 10);
+
+            // Reset the 'called' property for selected flags
+            selectedFlags.forEach(flag => flag.called = false);
+
+            this.flagImages = shuffledFlags; // Use the shuffled flags for the game
             this.changeFlagImage(); // Show the initial flag
+
             this.roundEnded = false; // Mark the round as not ended yet
-            let timeInSeconds = this.convertTimeToSeconds(this.timer); 
-            this.timer = this.formatTime(timeInSeconds); 
+            let timeInSeconds = this.convertTimeToSeconds(this.timer);
+            this.timer = this.formatTime(timeInSeconds);
             this.timerInterval = setInterval(() => {
                 if (timeInSeconds > 0) {
                     timeInSeconds--;
@@ -177,8 +178,8 @@ export default {
                 }
             }, 1000);
         },
-        
     },
+
 };
 
 </script>
