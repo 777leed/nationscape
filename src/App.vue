@@ -4,7 +4,7 @@
                 <img src="@/assets/globe.svg" alt="LOGO">
             </div>
         </header>
-        <main>
+        <main >
             <div class="feed-back">{{feedback}}</div>
             <div class="container" v-if="play">
                 <div class="actions">
@@ -18,21 +18,26 @@
                 </div>
                 
                 <div class="compo">
-
+                    <div class="st">
+                        <div class="timer hyell">{{timer}}</div>
+                        <div class="score hyell">{{score}}</div>
+                    </div>
                     <div class="flag-container">
                         <img :src="currentFlag" alt="">
 
                     </div>
-                    <div class="st">
-                        <div class="timer hyell">{{timer}}</div>
-                        <div class="score hyell">{{score}}</div>
+
+                    <div class="re">
+                        <button @click="handleRestart" class="hred">Restart</button>
+                        <button @click="handleExit" class="hred">Exit</button>
+
                     </div>
                     
                 </div>
 
             </div>
             <div class="start" v-else>
-                <button class="start-btn" @click="startGame">Start Round</button>
+                <button class="start-btn" @click="startGame">Fayssal kadri</button>
             </div>
         </main>
 </template>
@@ -41,6 +46,8 @@
 import flagData from '@/assets/flagsdata.json';
 
 export default {
+
+
     data() {
         return {
             play: false, // Control variable for showing the "Start Round" button
@@ -55,15 +62,22 @@ export default {
             flagImages: [],
             currentIndex: -1,
             timerInterval: null, // Store the timer interval reference
+            totalFlagsPerRound: 15, // Set the number of flags per round
+
         };
     },
+    mounted(){
+            window.addEventListener('keydown', this.handleGlobalKeyPress);
+        },
     computed: {
         flags_left() {
             // Calculate the number of flags left
             return this.flagImages.filter(flag => !flag.called).length;
         },
     },
+    
     methods: {
+
         convertTimeToSeconds(time) {
             const [minutes, seconds] = time.split(':').map(Number);
             return minutes * 60 + seconds;
@@ -111,6 +125,14 @@ export default {
                 this.handleRoundEnd();
             }
         },
+        handleExit() {
+            this.handleRoundEnd()
+        },
+        handleRestart(){
+            clearInterval(this.timerInterval);
+            this.startGame()
+        }
+        ,
         changeFlagImage() {
             if (this.flags_left > 0) {
                 let randomIndex;
@@ -154,13 +176,13 @@ export default {
             // Shuffle the flagData array to randomize the order
             const shuffledFlags = flagData.slice().sort(() => Math.random() - 0.5);
 
-            // Select the first 10 flags for the round
-            const selectedFlags = shuffledFlags.slice(0, 10);
+            // Select the first 10 flags for the current round
+            const currentFlagSet = shuffledFlags.slice(0, this.totalFlagsPerRound);
 
             // Reset the 'called' property for selected flags
-            selectedFlags.forEach(flag => flag.called = false);
+            currentFlagSet.forEach((flag) => (flag.called = false));
 
-            this.flagImages = shuffledFlags; // Use the shuffled flags for the game
+            this.flagImages = currentFlagSet; // Use the selected flags for the game
             this.changeFlagImage(); // Show the initial flag
 
             this.roundEnded = false; // Mark the round as not ended yet
@@ -178,7 +200,17 @@ export default {
                 }
             }, 1000);
         },
+
+        handleGlobalKeyPress(event) {
+            if (event.key === 'Tab') {
+                this.handleSkip();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
+
     },
+    
 
 };
 
@@ -234,8 +266,19 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(9, 29, 68, 0.7); /* Adjust the opacity as needed */
+      background-color: rgba(4, 0, 43, 0.877); /* Adjust the opacity as needed */
 
+  }
+
+
+  .homescreen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:url("./assets/noise2.png") ;
   }
 
   .container {
@@ -276,7 +319,7 @@ export default {
 
   }
 
-  .st {
+  .st, .re {
       width: 60%;
       display: flex;
       align-items:center;
@@ -284,13 +327,13 @@ export default {
       gap: 10px;
   }
 
-  .st div {
+  .st div, .re button {
       position: relative;
       border: 1px solid #000;
       text-shadow: 2px 2px #887BB0;
       text-transform: uppercase;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-      font-size: 1.8vw;
+      font-size: 1.7vw;
       text-align: center;
       font-family: Poppins;
       font-weight: 400;
@@ -298,6 +341,13 @@ export default {
       width: 30%;
 
   }
+
+
+  .re button {
+    cursor: pointer;
+  }
+
+  
 
   .btn-sec {
       display: flex;
@@ -330,6 +380,9 @@ export default {
   .hyell {
       background-color: #FFB25C;
   }
+  .hred {
+    background-color: rgb(245, 79, 79);
+}
 
 
   input, button {

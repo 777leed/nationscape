@@ -411,7 +411,7 @@
   },
   {
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png",
-    "value": "Israel",
+    "value": "free palestine",
     "called": false
   },
   {
@@ -1007,11 +1007,6 @@
   {
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Flag_of_the_Turkish_Republic_of_Northern_Cyprus.svg/640px-Flag_of_the_Turkish_Republic_of_Northern_Cyprus.svg.png",
     "value": "Northern Cyprus",
-    "called": false
-  },
-  {
-    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg/640px-Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg.png",
-    "value": "Sahrawi Arab Democratic Republic",
     "called": false
   },
   {
